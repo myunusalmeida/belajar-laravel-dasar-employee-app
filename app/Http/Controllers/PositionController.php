@@ -22,6 +22,19 @@ class PositionController extends Controller
 
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'position_name' => 'required|unique:positions',
+            'salary' => 'required|numeric',
+            'description' => 'required'
+        ], [
+            'position_name.required' => 'Please add a position name',
+            'salary.required' => 'Please add a salary',
+            'description.required' => 'Please add a description',
+
+            'position_name.unique' => 'Harus ga sama',
+            'salary.numeric' => 'Harus angka cuy',
+        ]);
+
         $data = $request->all();
         Position::create($data);
 
